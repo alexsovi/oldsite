@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <link rel="stylesheet" href="/style.css">
+        <title></title>
+                <meta name="description" content="">
+                <meta name="keywords" content="">
+                <meta name="author" content="">
+                <script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+const phrasesBox = document.getElementById('phrasesbox');
+const urlParams = new URLSearchParams(window.location.search);
+const factParam = urlParams.get('fact');
+if (factParam) {
+    fetch('phrases.json')
+    .then(response => response.json())
+    .then(data => {
+                const phrases = data.phrases;
+                const factIndex = parseInt(factParam) - 1;
+                const randomIndex = Math.floor(Math.random() * phrases.length);
+                const randomPhrase = "#" + String(randomIndex + 1) + ": " + phrases[randomIndex];
+        if (factIndex >= 0 && factIndex < phrases.length) {
+                        const selectedPhrase = "#" + factParam + ": " + phrases[factIndex];
+                        phrasesBox.textContent = selectedPhrase;
+        } else {
+                        fetch('phrases.json')
+                        .then(response => response.json())
+                        .then(data => {phrasesBox.textContent = randomPhrase;})
+                }
+      })
+} else {
+    fetch('phrases.json')
+    .then(response => response.json())
+    .then(data => {
+                const phrases = data.phrases;
+                const randomIndex = Math.floor(Math.random() * phrases.length);
+                const randomPhrase = "#" + String(randomIndex + 1) + ": " + phrases[randomIndex];
+                phrasesBox.textContent = randomPhrase;
+    })
+}
+});</script>
+    </head>
+    <body>
+        <div class="block">
+            <h1></h1>
+            <div class="navbar">
+                <a class="nav_btn" rel="me" target="_self" href="">main page</a>
+            </div>
+        </div>
+        <div class="block" id="content">
+                <p>Hello, World!</p>
+                <p>Phrase <span id="phrasesbox"></span></p>
+        </div>
+    </body>
+</html>
